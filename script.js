@@ -1,42 +1,35 @@
-document.addEventListener("DOMContentLoaded", function () {
-    function checkAnswer() {
-        // Correct answer
-        const correctAnswer = "4";
+// Retrieve the "Submit Answer" button
+const submitButton = document.getElementById("submit-answer");
 
-        // Find the checked radio (may be null if nothing selected)
-        const checked = document.querySelector('input[name="quiz"]:checked');
+// Function that checks the user's answer
+function checkAnswer() {
 
-        // Feedback element
-        const feedbackEl = document.getElementById("feedback");
+    // Retrieve the correct answer
+    const correctAnswer = "4";
 
-        // Defensive checks
-        if (!feedbackEl) {
-            console.error("No element with id 'feedback' found in the DOM.");
-            return;
-        }
+    // Retrieve the user's selected answer
+    const selectedOption = document.querySelector('input[name="quiz"]:checked');
 
-        if (!checked) {
-            // No option selected — show friendly message and stop
-            feedbackEl.textContent = "Please select an answer before submitting.";
-            feedbackEl.style.color = "#dc3545";
-            return;
-        }
+    // Retrieve the feedback element
+    const feedback = document.getElementById("feedback");
 
-        const userAnswer = checked.value;
-
-        if (userAnswer === correctAnswer) {
-            feedbackEl.textContent = "Correct! Well done.";
-            feedbackEl.style.color = "#28a745";
-        } else {
-            feedbackEl.textContent = "That's incorrect. Try again!";
-            feedbackEl.style.color = "#dc3545";
-        }
-    }
-
-    const btn = document.getElementById("submit-answer");
-    if (!btn) {
-        console.error("No element with id 'submit-answer' found in the DOM.");
+    // Ensure an option is selected
+    if (!selectedOption) {
+        feedback.textContent = "Please select an answer before submitting.";
         return;
     }
-    btn.addEventListener("click", checkAnswer);
-});
+
+    const userAnswer = selectedOption.value;
+
+    // Compare the user's answer with the correct answer
+    if (userAnswer === correctAnswer) {
+        // Provide correct-answer feedback
+        feedback.textContent = "Correct! Well done.";
+    } else {
+        // Provide incorrect-answer feedback
+        feedback.textContent = "That's incorrect. Try again!";
+    }
+}
+
+// Add event listener to the Submit Answer button
+submitButton.addEventListener("click", checkAnswer);
