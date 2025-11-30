@@ -1,17 +1,42 @@
-function checkAnswer() {
-    // Identify the correct answer
-    let correctAnswer = "4";
+document.addEventListener("DOMContentLoaded", function () {
+    function checkAnswer() {
+        // Correct answer
+        const correctAnswer = "4";
 
-    // Retrieve the user's selected answer
-    let userAnswer = document.querySelector('input[name="quiz"]:checked').value;
+        // Find the checked radio (may be null if nothing selected)
+        const checked = document.querySelector('input[name="quiz"]:checked');
 
-    // Compare answers and display feedback
-    if (userAnswer === correctAnswer) {
-        document.getElementById("feedback").textContent = "Correct! Well done.";
-    } else {
-        document.getElementById("feedback").textContent = "That's incorrect. Try again!";
+        // Feedback element
+        const feedbackEl = document.getElementById("feedback");
+
+        // Defensive checks
+        if (!feedbackEl) {
+            console.error("No element with id 'feedback' found in the DOM.");
+            return;
+        }
+
+        if (!checked) {
+            // No option selected — show friendly message and stop
+            feedbackEl.textContent = "Please select an answer before submitting.";
+            feedbackEl.style.color = "#dc3545";
+            return;
+        }
+
+        const userAnswer = checked.value;
+
+        if (userAnswer === correctAnswer) {
+            feedbackEl.textContent = "Correct! Well done.";
+            feedbackEl.style.color = "#28a745";
+        } else {
+            feedbackEl.textContent = "That's incorrect. Try again!";
+            feedbackEl.style.color = "#dc3545";
+        }
     }
-}
 
-// Add event listener to the submit button
-document.getElementById("submit-answer").addEventListener("click", checkAnswer);
+    const btn = document.getElementById("submit-answer");
+    if (!btn) {
+        console.error("No element with id 'submit-answer' found in the DOM.");
+        return;
+    }
+    btn.addEventListener("click", checkAnswer);
+});
